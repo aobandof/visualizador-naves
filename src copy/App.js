@@ -4,9 +4,10 @@ import { css, jsx } from '@emotion/core';
 import axios from 'axios';
 import 'normalize.css';
 
-// import DetailStartship from './components/DetailStartship';
+import DetailStartship from './components/DetailStartship';
 import DetalleNave from './components/DetalleNave';
 import PasajerosNave from './components/PasajerosNave';
+
 
 import bg from './img/bg.png';
 
@@ -59,11 +60,11 @@ const main = css`
 function App() {
   const  [ startships, setStartships ]= useState([])
   const [ startship, updateStartchip ] = useState({}); 
-  const [ changed, updateChanged ] = useState(false); 
+  const [ uploaded, updateUploaded ] = useState(false); 
 
   const handlerChangeStartship = (e) => {
     updateStartchip(startships[e.target.value]);
-    updateChanged(true);
+    updateUploaded(true);
   }
   useEffect( () => {
     (async function getStartships() {
@@ -80,15 +81,12 @@ function App() {
     })();
   }, []);
 
-  const ShowDetail = (changed)
-    ? (
-      <Fragment>
-        <DetalleNave startship = {startship} />
-        <PasajerosNave 
-          url={startship.url}
-        />
-      </Fragment>
-    )
+  const Component = (uploaded !== false)
+    ? <DetailStartship 
+        startship={startship}
+        url={startship.url}
+        updateUploaded={() => updateUploaded}
+      />
     : <Fragment />
   
   return (
@@ -103,7 +101,7 @@ function App() {
         }
         </select>
       </div>
-      {ShowDetail}
+      {Component}
     </div>
   );
 }

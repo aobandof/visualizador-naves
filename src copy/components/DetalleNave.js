@@ -6,6 +6,7 @@ const detail = css`
   padding: 0rem 1rem;
 `;
 
+
 function DetalleNave({ startship }) {
   console.log(startship);
   return (
